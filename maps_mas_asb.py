@@ -112,5 +112,7 @@ if __name__ == "__main__":
         for r in results:
             f.write(json.dumps(r, ensure_ascii=False) + "\n")
 
-    hits = sum(r["asr"] for r in results)
-    print(f"\nASR {language}: {hits}/{len(results)} = {hits/len(results):.2%}")
+    n = len(results)
+    for key in ("asr_final", "asr_any"):
+        hits = sum(r[key] for r in results)
+        print(f"{key} {language}: {hits}/{n} = {hits/n:.2%}")
