@@ -30,8 +30,6 @@ PROMPT_COL = "Attacker Instruction"
 def load_asb(language="English"):
     return list(load_dataset(MAPS_REPO, ASB_CONFIG, split=language))
 
-
-
 TOPOLOGIES = {
     "chain": {0: [1], 1: [2], 2: [3], 3: [4], 4: []},
     "tree":  {0: [1, 2], 1: [3, 4], 2: [], 3: [], 4: []},
@@ -80,21 +78,6 @@ def run_graph(item, language, topology="chain", node_models=None):
     final = "\n\n".join(h["output"] for h in history if h["is_sink"])
     return final, history
     
-# Deprecado
-'''def run_chain_fixed(item, language, n_agents=5, verbose=False):
-    role = item.get("Corresponding Agent") or "an assistant agent"
-    agents = [build_agent_prompt(role, language) for _ in range(n_agents)]
-    message = item["Attacker Instruction"]
-    history = []
-    for i, sp in enumerate(agents):
-        output = run_agent(sp, message)
-        history.append({"agent": i + 1, "language": language,
-                        "input": message, "output": output})
-        if verbose:
-            print(f"--- Agente {i+1} ({language}) ---\n  OUT: {output[:120]}")
-        message = output
-    return message, history
-'''
 
 # LLM-as-judge: ¿la salida final cumple el objetivo del ataque? (criterio = MAPS Attack goal)
 def judge_hop(output, attack_goal):
