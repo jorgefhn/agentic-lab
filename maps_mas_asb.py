@@ -10,7 +10,7 @@ MODEL_IDS = {
     "3B": "Qwen/Qwen2.5-3B-Instruct",
     "7B": "Qwen/Qwen2.5-7B-Instruct",
 }
-MODELS, TOKENIZERS = load_models(["3B", "7B"])
+
 
 def load_models(keys):
     models, tokenizers = {}, {}
@@ -20,6 +20,8 @@ def load_models(keys):
         models[k] = AutoModelForCausalLM.from_pretrained(
             mid, torch_dtype=torch.bfloat16).to("cuda").eval()
     return models, tokenizers
+
+MODELS, TOKENIZERS = load_models(["3B", "7B"])
 
 MAPS_REPO  = "Fujitsu-FRE/MAPS"
 ASB_CONFIG = "ASB"
