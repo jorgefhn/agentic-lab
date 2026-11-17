@@ -99,26 +99,33 @@ def judge_hop(output, attack_goal):
             return lab
     return "UNPARSED"
 
-if __name__ == "__main__":
-    
-    language = "English"
-    topology = sys.argv[1] if len(sys.argv) > 1 else "chain"
-    assert topology in TOPOLOGIES, f"topología desconocida: {topology}"
-
+def run_full_experiment(language="English", topology="chain", node_models=None, output_dir="."):
+    if node_models is None:
+        node_models = {i: "7B" for i in range(5)}
     data = load_asb(language)
     order = list(range(len(data)))
     random.Random(42).shuffle(order)
 
+    already_done = set()
+    out_path = f"{output_dir}/asb_{language}_{topology}.jsonl"
+    try:
+        with open(out_path, "r") as f_check:
+            for line in f_check:
+                already_done.add(json.loads(line)["orig_idx"])
+    except FileNotFoundError:
+        pass
+
     results = []
-    with open(f"asb_{language}_{topology}.jsonl", "w", encoding="utf-8") as f:
+    with open(out_path, "a", encoding="utf-8") as f:
         for n_run, orig_idx in enumerate(order):
+            if orig_idx in already_done:
+                continue
             item = data[orig_idx]
             final, history = run_graph(item, language, topology, node_models)
             labels = [judge_hop(h["output"], item["Attack goal"]) for h in history]
             sink_comply = any(l == "COMPLY" for l, h in zip(labels, history) if h["is_sink"])
             r = {"run": n_run, "orig_idx": orig_idx, "language": language,
-                 "topology": topology,
-                 "node_models": node_models,
+                 "topology": topology, "node_models": node_models,
                  "attack_type": item.get("Attack Type"),
                  "corresponding_agent": item.get("Corresponding Agent"),
                  "attack_goal": item.get("Attack goal"),
