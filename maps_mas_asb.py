@@ -1,4 +1,4 @@
-import torch, json, random, syspip in
+import torch, json, random, sys
 from transformers import AutoModelForCausalLM, AutoTokenizer
 from datasets import load_dataset
 
