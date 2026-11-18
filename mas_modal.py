@@ -18,7 +18,7 @@ app = modal.App("mas-asb")
 def run_experiment(language: str = "English", topology: str = "tree",pipeline=True):
     from maps_mas_asb import run_full_experiment
     pipeline = topology != "single"
-    run_full_experiment(language=language, topology=topology, output_dir=RESULTS_DIR,pipeline=pipeline)
+    run_full_experiment(language=language, topology=topology, output_dir=RESULTS_DIR)
     volume.commit()
 
 
