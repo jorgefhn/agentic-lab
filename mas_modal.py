@@ -24,4 +24,4 @@ def run_experiment(language: str = "English", topology: str = "tree",pipeline=Tr
 
 @app.local_entrypoint()
 def main():
-    run_experiment.remote(language="Spanish", topology="single", pipeline=False)
+    run_experiment.remote(language="English", topology="single", pipeline=False)
