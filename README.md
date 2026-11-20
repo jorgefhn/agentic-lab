@@ -5,7 +5,7 @@ En el dataset de ASB hay cinco tecnicas de ataque:
 2. Escape Characters. Se introducen caracteres especiales de escape para ver si prospera el ataque.
 3. Context Ignorning. El nodo tiene el mandato de ignorar la instruccionm anterior.
 4. Fake Completion. Respuesta simulada para hacer creer al agente que la tarea se completó ya.
-5. Combined attack. 
+5. Combined attack. es la concatenación de las otras tres técnicas de inyección en un solo payload.
 
 Cada uno de estos ataques está traducido a cada uno de los 11 idiomas descritos en las tablas en el dataset de MAPS. Esta es precisamente su aportación inicial, midiendo tasas de exito junto a otros tres benchmarks (no ofensivos) más. 
 A nosotros lo que más nos interesa es ASB porque estamos midiendo ataques, por eso empezamos por aqui.
